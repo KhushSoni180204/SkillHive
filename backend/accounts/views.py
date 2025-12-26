@@ -8,7 +8,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.permissions import IsAuthenticated
 from accounts.permissions import IsAdmin
 from accounts.models import User
-from accounts.serializers import AdminUserSerializer
+from accounts.serializers import AdminUserSerializer, AdminRegisterSerializer
 from django.shortcuts import get_object_or_404
 
 class AdminUserListAPIView(APIView):
@@ -90,27 +90,22 @@ class RegisterAPIView(APIView):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    
+
+class AdminRegisterAPIView(APIView):
+    def post(self, request):
+        serializer = AdminRegisterSerializer(data=request.data)
+
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=400)
+
+        serializer.save()
+        return Response(
+            {"message": "Admin created successfully"},
+            status=201
+        )
 
 class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomJWTSerializer    
 
-# from rest_framework_simplejwt.views import TokenObtainPairView
-# from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-# from rest_framework.exceptions import AuthenticationFailed
 
-# class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
-#     def validate(self, attrs):
-#         data = super().validate(attrs)
-
-#         if not self.user.is_active:
-#             raise AuthenticationFailed(
-#                 "Your account has been disabled by admin."
-#             )
-
-#         return data
-
-
-# class LoginAPIView(TokenObtainPairView):
-#     serializer_class = CustomTokenObtainPairSerializer
 

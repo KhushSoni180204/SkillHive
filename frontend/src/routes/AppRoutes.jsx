@@ -7,6 +7,7 @@ import Home from "../pages/Home";
 import Courses from "../pages/Courses";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
+import AdminRegister from "../pages/AdminRegister";
 import CourseDetails from "../pages/CourseDetails";
 import Module from "../pages/Module";
 import Lesson from "../pages/Lesson";
@@ -36,6 +37,7 @@ export default function AppRoutes() {
 
         <Route path="/auth/login" element={<Login />} />
         <Route path="/auth/register" element={<Register />} />
+        <Route path="/auth/admin/register" element={<AdminRegister />} />
 
         {/* ---------- STUDENT ROUTES ---------- */}
         <Route

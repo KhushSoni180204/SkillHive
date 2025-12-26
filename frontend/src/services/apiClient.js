@@ -194,3 +194,9 @@ export async function searchCourses(query){
   const res = await api.get(`/courses/search/?q=${query}`);
   return res.data;
 }
+
+//------------Admin Registration-------------
+export async function adminRegister(data) {
+  const res = await api.post("/auth/admin/register/",data);
+  return res.data;
+}

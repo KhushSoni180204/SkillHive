@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import User
 from django.contrib.auth.hashers import make_password
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from skillhive import settings
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -41,3 +42,34 @@ class AdminUserSerializer(serializers.ModelSerializer):
             "user_phone",
             "is_active",
         ]
+
+
+# ADMIN_SECRET_KEY = "SKILLHIVE_ADMIN_2025"  # move to env later
+
+
+class AdminRegisterSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
+    secret_key = serializers.CharField(write_only=True)
+
+    class Meta:
+        model = User
+        fields = ["username","password","secret_key"]
+        extra_kwargs = {
+            "password": {"write_only": True}
+        }
+
+    def validate_admin_key(self, value):
+        if value != settings.ADMIN_SECRET_KEY:
+            raise serializers.ValidationError("Invalid admin key")
+        return value
+
+    def create(self, validated_data):
+        validated_data.pop("secret_key")
+
+        user = User.objects.create_user(
+            username=validated_data["username"],
+            password=validated_data["password"],
+            user_role="admin",
+            is_active=True,
+        )
+        return user

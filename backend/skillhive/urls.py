@@ -18,21 +18,12 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView,
-)
-from accounts.views import RegisterAPIView
-from accounts.auth import CustomTokenObtainPairView
 from django.contrib import admin
 from accounts.views import (
-    RegisterAPIView, 
-    CustomTokenObtainPairView, 
     AdminUserListAPIView, 
-    AdminUserDetailAPIView, AdminUserToggleStatusAPIView,
-    # LoginAPIView,
+    AdminUserDetailAPIView,
+    AdminUserToggleStatusAPIView,
 )
-from rest_framework_simplejwt.views import TokenRefreshView
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -40,14 +31,12 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     # User registration
-    path("api/auth/register/", RegisterAPIView.as_view()),
-
-    # JWT login + refresh
-    path("api/auth/login/", CustomTokenObtainPairView.as_view(), name="jwt_login"),
-    path("api/auth/refresh/", TokenRefreshView.as_view(), name="jwt_refresh"),
+    path("api/auth/", include("accounts.urls")),
 
     # Courses API
     path("api/", include("courses.urls")),
+
+    # Enrollments API
     path("api/", include("enrollments.urls")),
 
     # Admin API

@@ -37,12 +37,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.postgres',
     'accounts',
     'courses',
+    'enrollments',
     "rest_framework",
     "corsheaders",
-    # 'rest_framework_simplejwt.token_blacklist.apps.TokenBlacklistConfig',
     "rest_framework_simplejwt.token_blacklist",
+    # 'rest_framework_simplejwt.token_blacklist.apps.TokenBlacklistConfig',
 ]
 
 MIDDLEWARE = [

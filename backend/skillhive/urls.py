@@ -25,13 +25,12 @@ from rest_framework_simplejwt.views import (
 from accounts.views import RegisterAPIView
 from accounts.auth import CustomTokenObtainPairView
 from django.contrib import admin
-from django.urls import path, include
 from accounts.views import (
-RegisterAPIView, 
-CustomTokenObtainPairView, 
-AdminUserListAPIView, 
-AdminUserDetailAPIView, AdminUserToggleStatusAPIView,
-# LoginAPIView,
+    RegisterAPIView, 
+    CustomTokenObtainPairView, 
+    AdminUserListAPIView, 
+    AdminUserDetailAPIView, AdminUserToggleStatusAPIView,
+    # LoginAPIView,
 )
 from rest_framework_simplejwt.views import TokenRefreshView
 from django.conf import settings
@@ -49,6 +48,7 @@ urlpatterns = [
 
     # Courses API
     path("api/", include("courses.urls")),
+    path("api/", include("enrollments.urls")),
 
     # Admin API
     path("api/admin/", include("courses.urls")),

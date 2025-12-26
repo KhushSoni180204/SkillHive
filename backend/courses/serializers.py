@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Course, Module, Lesson, Enrollment, LessonProgress
+from .models import Course, Module, Lesson
 from accounts.models import User
 
 
@@ -47,28 +47,28 @@ class CourseDetailSerializer(serializers.ModelSerializer):
         model = Course
         fields = ["id", "course_name", "description", "status", "modules"]
 
-class EnrollmentSerializer(serializers.ModelSerializer):
-    course = CourseDetailSerializer(read_only=True)  # Use nested serializer
-    course_id = serializers.PrimaryKeyRelatedField(
-        queryset=Course.objects.all(), source="course", write_only=True
-    )
+# class EnrollmentSerializer(serializers.ModelSerializer):
+#     course = CourseDetailSerializer(read_only=True)  # Use nested serializer
+#     course_id = serializers.PrimaryKeyRelatedField(
+#         queryset=Course.objects.all(), source="course", write_only=True
+#     )
 
-    class Meta:
-        model = Enrollment
-        fields = "__all__"
+#     class Meta:
+#         model = Enrollment
+#         fields = "__all__"
 
-    extra_kwargs = {
-        "user": {"read_only": True}
-    }
+#     extra_kwargs = {
+#         "user": {"read_only": True}
+#     }
 
 
-class LessonProgressSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = LessonProgress
-        fields = "__all__"
-        extra_kwargs = {
-            "user": {"read_only": True}
-        }
+# class LessonProgressSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = LessonProgress
+#         fields = "__all__"
+#         extra_kwargs = {
+#             "user": {"read_only": True}
+#         }
 
 
 class AdminInstructorSerializer(serializers.ModelSerializer):

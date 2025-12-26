@@ -1,11 +1,11 @@
 from django.urls import path
 from .views import(
     CourseListAPIView, CourseDetailAPIView, ModuleListAPIView, 
-    LessonListAPIView, EnrollmentListAPIView, CourseFullDetailAPIView, 
-    ModuleDetailAPIView, LessonDetailAPIView, LessonProgressAPIView,
-    ModuleProgressAPIView, InstructorCourseListAPIView, InstructorAnalyticsAPIView,
+    LessonListAPIView, CourseFullDetailAPIView, ModuleDetailAPIView, 
+    LessonDetailAPIView, ModuleProgressAPIView, 
+    InstructorCourseListAPIView, InstructorAnalyticsAPIView,
     AdminCourseStatusAPIView, AdminCourseListAPIView, AdminCourseDeleteAPIView,
-    AdminAnalyticsAPIView
+    AdminAnalyticsAPIView, CourseSearchAPIView
 )
 
 
@@ -27,10 +27,10 @@ urlpatterns = [
     path("lessons/<int:pk>/", LessonDetailAPIView.as_view()),
 
     # For Enrollment
-    path("enrollments/", EnrollmentListAPIView.as_view()),
+    # path("enrollments/", EnrollmentListAPIView.as_view()),
 
     # For lesson-progress
-    path("lesson-progress/", LessonProgressAPIView.as_view()),
+    # path("lesson-progress/", LessonProgressAPIView.as_view()),
 
     # For Instructor Analytics
     path("instructor/analytics/", InstructorAnalyticsAPIView.as_view()),    
@@ -40,5 +40,8 @@ urlpatterns = [
     path("courses/<int:pk>/toggle-status/", AdminCourseStatusAPIView.as_view()),
     path("courses/<int:pk>/delete/", AdminCourseDeleteAPIView.as_view()),
     path("analytics/",AdminAnalyticsAPIView.as_view()),
+
+    # For Searching
+    path("courses/search/", CourseSearchAPIView.as_view()),
 
 ]

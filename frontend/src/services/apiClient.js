@@ -188,3 +188,9 @@ export async function getInstructorAnalytics() {
   const res = await api.get("/instructor/analytics/");
   return res.data;
 }
+
+//------------Search Courses---------------
+export async function searchCourses(query){
+  const res = await api.get(`/courses/search/?q=${query}`);
+  return res.data;
+}

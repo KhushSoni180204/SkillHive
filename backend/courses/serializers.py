@@ -25,9 +25,6 @@ class CourseSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-
-
-
 # --------------------------------------------------
 #  NESTED SERIALIZERS
 # --------------------------------------------------
@@ -46,29 +43,6 @@ class CourseDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
         fields = ["id", "course_name", "description", "status", "modules"]
-
-# class EnrollmentSerializer(serializers.ModelSerializer):
-#     course = CourseDetailSerializer(read_only=True)  # Use nested serializer
-#     course_id = serializers.PrimaryKeyRelatedField(
-#         queryset=Course.objects.all(), source="course", write_only=True
-#     )
-
-#     class Meta:
-#         model = Enrollment
-#         fields = "__all__"
-
-#     extra_kwargs = {
-#         "user": {"read_only": True}
-#     }
-
-
-# class LessonProgressSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = LessonProgress
-#         fields = "__all__"
-#         extra_kwargs = {
-#             "user": {"read_only": True}
-#         }
 
 
 class AdminInstructorSerializer(serializers.ModelSerializer):

@@ -194,3 +194,7 @@ CACHES = {
         }
     }
 }
+
+import os
+
+ADMIN_SECRET_KEY = os.getenv("SKILLHIVE_ADMIN_KEY")

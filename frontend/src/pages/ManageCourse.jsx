@@ -29,7 +29,9 @@ export default function ManageCourse() {
   const [lessonName, setLessonName] = useState("");
   const [lessonContent, setLessonContent] = useState("");
   const [lessonDuration, setLessonDuration] = useState("");
+  const [lessonVideoUrl, setLessonVideoUrl] = useState("");
 
+  const [editLessonVideoUrl, setEditLessonVideoUrl] = useState("");
   const [editingLesson, setEditingLesson] = useState(null);
   const [editLessonName, setEditLessonName] = useState("");
   const [editLessonContent, setEditLessonContent] = useState("");
@@ -132,8 +134,10 @@ export default function ManageCourse() {
         module: moduleId,
         lesson_name: lessonName,
         content: lessonContent,
+        video_url: lessonVideoUrl || null,
         duration: lessonDuration || null,
       });
+
 
       setCourse((prev) => ({
         ...prev,
@@ -144,6 +148,7 @@ export default function ManageCourse() {
         ),
       }));
 
+      setLessonVideoUrl("");
       setLessonName("");
       setLessonContent("");
       setLessonDuration("");
@@ -159,7 +164,9 @@ export default function ManageCourse() {
     setEditLessonName(lesson.lesson_name);
     setEditLessonContent(lesson.content || "");
     setEditLessonDuration(lesson.duration || "");
+    setEditLessonVideoUrl(lesson.video_url || "");
   }
+
 
   async function handleSaveLesson() {
     if (!editingLesson) return;
@@ -170,8 +177,10 @@ export default function ManageCourse() {
       const updated = await updateLesson(editingLesson.id, {
         lesson_name: editLessonName,
         content: editLessonContent,
+        video_url: editLessonVideoUrl || null,
         duration: editLessonDuration || null,
       });
+
 
       setCourse((prev) => ({
         ...prev,
@@ -334,6 +343,13 @@ export default function ManageCourse() {
                     onChange={(e) => setLessonContent(e.target.value)}
                   />
                   <input
+                    type="url"
+                    className="form-control mb-2"
+                    placeholder="Video URL (YouTube / Vimeo)"
+                    value={lessonVideoUrl}
+                    onChange={(e) => setLessonVideoUrl(e.target.value)}
+                  />
+                  <input
                     type="number"
                     className="form-control mb-2"
                     placeholder="Duration"
@@ -400,6 +416,14 @@ export default function ManageCourse() {
                   value={editLessonContent}
                   onChange={(e) => setEditLessonContent(e.target.value)}
                 />
+                <input
+                  type="url"
+                  className="form-control mb-2"
+                  placeholder="Video URL"
+                  value={editLessonVideoUrl}
+                  onChange={(e) => setEditLessonVideoUrl(e.target.value)}
+                />
+
                 <input
                   type="number"
                   className="form-control"

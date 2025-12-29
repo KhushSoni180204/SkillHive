@@ -21,16 +21,9 @@ urlpatterns = [
     path("modules/<int:pk>/", ModuleDetailAPIView.as_view()),
     path("modules/<int:pk>/progress/", ModuleProgressAPIView.as_view()),
 
-
     # For Lesson
     path("lessons/", LessonListAPIView.as_view()),
     path("lessons/<int:pk>/", LessonDetailAPIView.as_view()),
-
-    # For Enrollment
-    # path("enrollments/", EnrollmentListAPIView.as_view()),
-
-    # For lesson-progress
-    # path("lesson-progress/", LessonProgressAPIView.as_view()),
 
     # For Instructor Analytics
     path("instructor/analytics/", InstructorAnalyticsAPIView.as_view()),    

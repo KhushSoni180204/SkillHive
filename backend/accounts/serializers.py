@@ -43,10 +43,6 @@ class AdminUserSerializer(serializers.ModelSerializer):
             "is_active",
         ]
 
-
-# ADMIN_SECRET_KEY = "SKILLHIVE_ADMIN_2025"  # move to env later
-
-
 class AdminRegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
     secret_key = serializers.CharField(write_only=True)

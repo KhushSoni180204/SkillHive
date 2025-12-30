@@ -1,13 +1,64 @@
 services:
+  web:
+    build: .
+    command: gunicorn skillhive.wsgi:application --config gunicorn_config.py
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+      - static_volume:/static
+    depends_on:
+      - db
+      - redis
+
+  worker:
+    build: .
+    command: celery -A skillhive worker -l info
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+      - redis
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - static_volume:/static
+    depends_on:
+      - web
+
+  db:
+    image: postgres:16-alpine
+    container_name: skillhive_db
+    restart: always
+    environment:
+      POSTGRES_DB: skillhive
+      POSTGRES_USER: skillhive_user
+      POSTGRES_PASSWORD: skillhive_pass
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5434:5432"
+
   redis:
     image: redis:7-alpine
     container_name: redis
     restart: always
-    ports:
-      - "6379:6379"
     volumes:
       - redis_data:/data
     command: ["redis-server", "--appendonly", "yes"]
+    ports:
+      - "6379:6379"
 
 volumes:
+  postgres_data:
+    external: true
+    name: backend_postgres_data
   redis_data:
+  static_volume:

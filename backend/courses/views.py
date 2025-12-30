@@ -404,6 +404,8 @@ class LessonListAPIView(APIView):
 # ------------------------------------------------------------
 # Lesson Detail + Update + Delete
 # ------------------------------------------------------------
+from courses.tasks import lesson_video_processed
+
 
 class LessonDetailAPIView(APIView):
     def get_permissions(self):
@@ -417,6 +419,7 @@ class LessonDetailAPIView(APIView):
         except Lesson.DoesNotExist:
             return Response({"error": "Lesson not found"},status=status.HTTP_404_NOT_FOUND)
         
+        lesson_video_processed.delay(pk) 
         serializer = LessonSerializer(lesson)
         return Response(serializer.data)
     

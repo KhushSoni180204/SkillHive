@@ -39,6 +39,9 @@ urlpatterns = [
     # Enrollments API
     path("api/", include("enrollments.urls")),
 
+    # Doubt-Sessions API
+    path("api/doubt-sessions/", include("doubt_sessions.urls")),
+
     # Admin API
     path("api/admin/", include("courses.urls")),
     path("api/admin/users/", AdminUserListAPIView.as_view()),

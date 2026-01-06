@@ -11,6 +11,8 @@ import AdminRegister from "../pages/AdminRegister";
 import CourseDetails from "../pages/CourseDetails";
 import Module from "../pages/Module";
 import Lesson from "../pages/Lesson";
+import StudentDoubtSessions from "../pages/StudentDoubtSessions";
+import InstructorDoubtSessions from "../pages/InstructorDoubtSessions";
 
 import AdminDashboard from "../pages/AdminDashboard";
 import AdminAnalytics from "../pages/AdminAnalytics";
@@ -19,6 +21,7 @@ import InstructorDashboard from "../pages/InstructorDashboard";
 import ManageCourse from "../pages/ManageCourse";
 import Profile from "../pages/Profile";
 import NotFound from "../pages/NotFound";
+
 
 export default function AppRoutes() {
   return (
@@ -48,6 +51,11 @@ export default function AppRoutes() {
             </PrivateRoute>
           }
         />
+        <Route
+          path="/student/doubt-sessions"
+          element={<StudentDoubtSessions />}
+        />
+
 
         {/* ---------- INSTRUCTOR ROUTES ---------- */}
         <Route
@@ -57,6 +65,11 @@ export default function AppRoutes() {
               <InstructorDashboard />
             </PrivateRoute>
           }
+        />
+
+        <Route
+          path="/instructor/doubt-sessions"
+          element={<InstructorDoubtSessions />}
         />
 
         <Route

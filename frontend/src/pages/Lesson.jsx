@@ -7,6 +7,9 @@ import {
   markLessonComplete,
 } from "../services/apiClient";
 import { jwtDecode } from "jwt-decode";
+import RequestDoubtSession from "../components/common/RequestDoubtSession";
+import MyDoubtSessions from "../components/common/MyDoubtSessions";
+
 
 export default function Lesson() {
   const { courseId, moduleId, lessonId } = useParams();
@@ -209,6 +212,16 @@ export default function Lesson() {
               )}
             </div>
           </div>
+          
+          {/* ================= DOUBT SESSIONS ================= */}
+          {decoded.user_role === "student" && (
+            <div className="card shadow-sm mb-4">
+              <div className="card-body">
+                <h5 className="fw-bold mb-3">Have a doubt?</h5>
+                <RequestDoubtSession courseId={courseId} />
+              </div>
+            </div>
+          )}
 
           {/* NAVIGATION */}
           <div className="d-flex justify-content-between">

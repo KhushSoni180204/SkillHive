@@ -9,6 +9,56 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
+// ---------- DOUBT SESSIONS ----------
+export async function joinDoubtSession(courseId, sessionDate) {
+  const res = await api.post("/doubt-sessions/join/", {
+    course_id: courseId,
+    session_date: sessionDate,
+  });
+  return res.data;
+}
+
+export async function getMyDoubtSessions() {
+  const res = await api.get("/doubt-sessions/my/");
+  return res.data;
+}
+
+export async function getJoinInfo(sessionId) {
+  const res = await api.get(`/doubt-sessions/${sessionId}/join/`);
+  return res.data;
+}
+
+// Get all instructor doubt sessions
+export async function getInstructorDoubtSessions() {
+  const res = await api.get("/doubt-sessions/instructor/");
+  return res.data;
+}
+
+// Update Google Meet link
+export async function updateDoubtSessionMeetLink(sessionId, meetLink) {
+  const res = await api.patch(
+    `/doubt-sessions/${sessionId}/meet-link/`,
+    { meet_link: meetLink }
+  );
+  return res.data;
+}
+
+// Update session status (scheduled → live → completed)
+export async function updateDoubtSessionStatus(sessionId, status) {
+  const res = await api.patch(
+    `/doubt-sessions/${sessionId}/status/`,
+    { status }
+  );
+  return res.data;
+}
+
+// ================= DOUBT SESSIONS (ZOOM) =================
+export async function generateZoomLink(sessionId) {
+  const res = await api.post(`/doubt-sessions/${sessionId}/generate-zoom/`);
+  return res.data;
+}
+
+
 //-----------Admin------------
 export async function getAllCourses(){
   const res = await api.get("/admin/courses/");

@@ -54,6 +54,14 @@ export default function Sidebar() {
                 My Courses
               </Link>
             </li>
+            <li className="list-group-item">
+              <Link
+              to="/student/doubt-sessions"
+              className="text-decoration-none"
+              >
+                Doubt Sessoins
+              </Link>
+            </li>
           </>
         )}
 
@@ -66,6 +74,15 @@ export default function Sidebar() {
                 className="text-decoration-none"
               >
                 My Courses
+              </Link>
+            </li>
+
+            <li className="list-group-item">
+              <Link
+                to="/instructor/doubt-sessions"
+                className="text-decoration-none"
+              >
+                Doubt Sessions
               </Link>
             </li>
           </>

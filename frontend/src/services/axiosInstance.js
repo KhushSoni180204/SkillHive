@@ -40,7 +40,7 @@ axiosInstance.interceptors.response.use(
         if (!refresh) throw new Error("No refresh token");
 
         const res = await axios.post(
-          "http://127.0.0.1:8000/api/auth/refresh/",
+          "http://localhost/api/auth/refresh/",
           { refresh }
         );
 

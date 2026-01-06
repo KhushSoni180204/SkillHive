@@ -216,3 +216,6 @@ CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
 STATIC_URL = "/static/"
 STATIC_ROOT = "/static"
 
+ZOOM_ACCOUNT_ID = os.getenv("ZOOM_ACCOUNT_ID")
+ZOOM_CLIENT_ID = os.getenv("ZOOM_CLIENT_ID")
+ZOOM_CLIENT_SECRET = os.getenv("ZOOM_CLIENT_SECRET")

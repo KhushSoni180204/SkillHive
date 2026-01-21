@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.postgres',
     'accounts',
+    'ai_learning',
     'courses',
     'enrollments',
     'doubt_sessions',
@@ -219,3 +220,5 @@ STATIC_ROOT = "/static"
 ZOOM_ACCOUNT_ID = os.getenv("ZOOM_ACCOUNT_ID")
 ZOOM_CLIENT_ID = os.getenv("ZOOM_CLIENT_ID")
 ZOOM_CLIENT_SECRET = os.getenv("ZOOM_CLIENT_SECRET")
+
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")

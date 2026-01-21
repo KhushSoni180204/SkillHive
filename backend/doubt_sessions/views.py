@@ -188,7 +188,7 @@ class MyDoubtSessionsAPIView(APIView):
     def get(self, request):
         sessions = (
             DoubtSession.objects
-            .filter(participants__student=request.user, status__in=["scheduled","live","cancelled"])
+            .filter(participants__student=request.user, status__in=["scheduled","live"])
             .annotate(participants_count=Count("participants"))
             .order_by("session_date", "start_time")
         )

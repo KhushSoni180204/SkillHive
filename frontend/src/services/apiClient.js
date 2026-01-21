@@ -8,6 +8,7 @@ api.interceptors.request.use((config) => {
   }
   return config;
 });
+// -----------AI Functionality------------
 
 // ---------- DOUBT SESSIONS ----------
 export async function joinDoubtSession(courseId, sessionDate) {
@@ -248,5 +249,17 @@ export async function searchCourses(query){
 //------------Admin Registration-------------
 export async function adminRegister(data) {
   const res = await api.post("/auth/admin/register/",data);
+  return res.data;
+}
+
+//------------Ask AI----------------
+export async function askai(data){
+  const res = await api.post("ai/ask/",data);
+  return res.data;
+} 
+
+//----------Generate Quiz-------------
+export async function generateQuiz(data){
+  const res = await api.post("ai/generate-quiz/",data);
   return res.data;
 }

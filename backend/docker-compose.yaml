@@ -1,6 +1,7 @@
 services:
   web:
     build: .
+    restart: always
     command: gunicorn skillhive.wsgi:application --config gunicorn_config.py
     env_file:
       - .env
@@ -14,6 +15,7 @@ services:
   worker:
     build: .
     command: celery -A skillhive worker -l info
+    restart: always
     env_file:
       - .env
     volumes:
@@ -24,6 +26,7 @@ services:
 
   nginx:
     image: nginx:alpine
+    restart: always
     ports:
       - "80:80"
     volumes:

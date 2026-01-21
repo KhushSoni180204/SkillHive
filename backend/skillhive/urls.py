@@ -48,6 +48,9 @@ urlpatterns = [
     path("api/admin/users/<int:pk>/", AdminUserDetailAPIView.as_view()),
     path("api/admin/users/<int:pk>/toggle-status/", AdminUserToggleStatusAPIView.as_view()),
 
+    # Ask AI & Quiz Genrator
+    path("api/ai/", include("ai_learning.urls")), 
+
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

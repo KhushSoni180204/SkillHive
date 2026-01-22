@@ -13,6 +13,7 @@ export default function Profile() {
 
       setUser({
         username: decoded.username,
+        email: decoded.email,
         role: decoded.user_role,
       });
     } catch {
@@ -34,12 +35,14 @@ export default function Profile() {
             <strong>Username</strong>
             <p className="mb-0">{user.username}</p>
           </div>
+          <div className="mb-3">
+            <strong>Email</strong>
+            <p className="mb-0">{user.email}</p>
+          </div>
 
-          <div>
+          <div className="mb-3">
             <strong>Role</strong>
-            <span className="badge bg-primary ms-2">
-              {user.role}
-            </span>
+            <p className="mb-0">{user.role}</p>
           </div>
         </div>
       </div>

@@ -236,14 +236,14 @@ export default function Lesson() {
                     className="btn btn-outline-primary"
                     onClick={() => setShowAskAI(prev => !prev)}
                   >
-                    🤖 Ask AI
+                    Ask AI
                   </button>
 
                   <button
                     className="btn btn-outline-secondary"
                     onClick={() => setShowQuiz(prev => !prev)}
                   >
-                    📝 Generate Quiz
+                    Generate Quiz
                   </button>
                 </div>
               )}

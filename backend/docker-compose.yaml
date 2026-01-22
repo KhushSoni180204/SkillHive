@@ -1,5 +1,6 @@
 services:
   web:
+    container_name: skillhive
     build: .
     restart: always
     command: gunicorn skillhive.wsgi:application --config gunicorn_config.py
@@ -13,6 +14,7 @@ services:
       - redis
 
   worker:
+    container_name: celery-worker
     build: .
     command: celery -A skillhive worker -l info
     restart: always
@@ -26,6 +28,7 @@ services:
 
   nginx:
     image: nginx:alpine
+    container_name: nginx
     restart: always
     ports:
       - "80:80"
@@ -38,7 +41,7 @@ services:
 
   db:
     image: postgres:16-alpine
-    container_name: skillhive_db
+    container_name: postgres_db
     restart: always
     environment:
       POSTGRES_DB: skillhive

@@ -3,13 +3,10 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .serializers import UserSerializer
-from accounts.serializers import CustomJWTSerializer
-from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.permissions import IsAuthenticated
 from accounts.permissions import IsAdmin
 from accounts.models import User
 from accounts.serializers import AdminUserSerializer, AdminRegisterSerializer
-from django.shortcuts import get_object_or_404
 
 class AdminUserListAPIView(APIView):
     permission_classes = [IsAuthenticated, IsAdmin]
@@ -103,9 +100,4 @@ class AdminRegisterAPIView(APIView):
             {"message": "Admin created successfully"},
             status=201
         )
-
-class CustomTokenObtainPairView(TokenObtainPairView):
-    serializer_class = CustomJWTSerializer    
-
-
-
+ 

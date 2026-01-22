@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from .models import User
 from django.contrib.auth.hashers import make_password
-from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from skillhive import settings
 
 class UserSerializer(serializers.ModelSerializer):
@@ -15,21 +14,6 @@ class UserSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         validated_data["password"] = make_password(validated_data["password"])
         return super().create(validated_data)
-
-    
-
-class CustomJWTSerializer(TokenObtainPairSerializer):
-    @classmethod
-    def get_token(cls, user):
-        token = super().get_token(user)
-
-        # Add custom claims
-        token["username"] = user.username
-        token["user_role"] = user.user_role
-        token["id"] = user.id
-
-        return token
-
 
 class AdminUserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -49,7 +33,7 @@ class AdminRegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ["username","password","secret_key"]
+        fields = ["username","email","password","secret_key"]
         extra_kwargs = {
             "password": {"write_only": True}
         }
@@ -64,6 +48,7 @@ class AdminRegisterSerializer(serializers.ModelSerializer):
 
         user = User.objects.create_user(
             username=validated_data["username"],
+            email=validated_data["email"],
             password=validated_data["password"],
             user_role="admin",
             is_active=True,

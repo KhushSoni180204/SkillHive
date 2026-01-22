@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function AdminRegister() {
   const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [secretKey, setSecretKey] = useState("");
   const [error, setError] = useState("");
@@ -17,6 +18,7 @@ export default function AdminRegister() {
     try {
       await adminRegister({
         username,
+        email,
         password,
         secret_key: secretKey,
       });
@@ -40,6 +42,14 @@ export default function AdminRegister() {
           placeholder="Username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
+          required
+        />
+
+        <input
+          className="form-control mb-3"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           required
         />
 

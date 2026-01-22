@@ -6,7 +6,7 @@ import { jwtDecode } from "jwt-decode";
 export default function Login() {
   const navigate = useNavigate();
 
-  const [username, setUsername] = useState("");
+  const [email, setemail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
@@ -16,7 +16,7 @@ export default function Login() {
 
     try {
       const data = await loginUser({
-        username,   
+        email,   
         password,
       });
 
@@ -48,12 +48,12 @@ export default function Login() {
 
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
-          <label className="form-label">Username</label>
+          <label className="form-label">Email</label>
           <input
             className="form-control"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setemail(e.target.value)}
             required
           />
         </div>

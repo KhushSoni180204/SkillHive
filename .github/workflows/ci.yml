@@ -27,7 +27,7 @@ jobs:
       - name: Set Django settings for CI
         working-directory: backend
         run: |
-          echo "DJANGO_SETTINGS_MODULE=skillhive.settings" >> $GITHUB_ENV
+          echo "DJANGO_SETTINGS_MODULE=skillhive.settings_test" >> $GITHUB_ENV
           echo "DEBUG=False" >> $GITHUB_ENV
           echo "SECRET_KEY=ci-secret-key" >> $GITHUB_ENV
         

@@ -30,6 +30,9 @@ jobs:
           echo "DJANGO_SETTINGS_MODULE=skillhive.settings" >> $GITHUB_ENV
           echo "DEBUG=False" >> $GITHUB_ENV
           echo "SECRET_KEY=ci-secret-key" >> $GITHUB_ENV
+        
+      - name: Export CI env
+        run: echo "CI=true" >> $GITHUB_ENV
 
       - name: Run tests
         working-directory: backend

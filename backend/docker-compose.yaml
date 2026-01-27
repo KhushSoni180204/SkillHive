@@ -6,6 +6,7 @@ services:
     command: gunicorn skillhive.wsgi:application --config gunicorn_config.py
     env_file:
       - .env
+      - .env.ci
     volumes:
       - .:/app
       - static_volume:/static

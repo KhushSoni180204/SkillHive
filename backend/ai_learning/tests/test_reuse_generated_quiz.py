@@ -5,7 +5,6 @@ from ai_learning.models import AIQuiz
 
 @pytest.mark.django_db
 def test_existing_quiz_is_reused(
-    mock_generate,
     api_client,
     student_user,
     sample_lesson,

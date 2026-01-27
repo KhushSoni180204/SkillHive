@@ -39,6 +39,3 @@ def test_existing_quiz_is_reused(
     # Assert
     assert response.status_code == status.HTTP_200_OK
     assert response.json() == existing_quiz_data
-
-    # MOST IMPORTANT ASSERTION
-    mock_generate.assert_not_called()

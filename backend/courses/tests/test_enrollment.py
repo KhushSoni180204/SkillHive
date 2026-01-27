@@ -1,94 +1,87 @@
 import pytest
 from django.contrib.auth import get_user_model
 from rest_framework.test import APIClient
-from courses.models import Course, Enrollment
+from courses.models import Course
+from enrollments.models import Enrollment
 
 User = get_user_model()
 
 @pytest.mark.django_db
-def test_student_can_enroll():
-    student = User.objects.create_user(
-        username="stud",
-        password="123",
-        user_role="student"
+def test_student_can_enroll(student_user, instructor_user):
+    instructor_client = APIClient()
+    instructor_client.force_authenticate(user=instructor_user)
+
+    # Instructor creates course
+    course_response = instructor_client.post(
+        "/api/courses/",
+        {
+            "course_name": "Django",
+            "description": "Backend"
+        },
+        format="json"
     )
-    instructor = User.objects.create_user(
-        username="teach",
-        password="123",
-        user_role="instructor"
+
+    assert course_response.status_code == 201
+    course_id = course_response.data["id"]
+
+    student_client = APIClient()
+    student_client.force_authenticate(user=student_user)
+
+    # Student enrolls
+    enroll_response = student_client.post(
+        "/api/enrollments/",
+        {"course_id": course_id},
+        format="json"
     )
 
-    client = APIClient()
-
-    # Login as instructor to create course
-    login_teacher = client.post("/api/auth/login/", {
-        "username": "teach",
-        "password": "123"
-    })
-    token_teacher = login_teacher.data["access"]
-    client.credentials(HTTP_AUTHORIZATION=f"Bearer {token_teacher}")
-
-    course = client.post("/api/courses/", {
-        "course_name": "Django",
-        "description": "Backend"
-    }).data
-
-    # Login as student
-    login_student = client.post("/api/auth/login/", {
-        "username": "stud",
-        "password": "123"
-    })
-    token_student = login_student.data["access"]
-    client.credentials(HTTP_AUTHORIZATION=f"Bearer {token_student}")
-
-    # Enroll
-    res = client.post("/api/enrollments/", {"course_id": course["id"]})
-
-    print("ENROLLMENT ERROR:", res.data)
-    assert res.status_code == 201
-    assert Enrollment.objects.count() == 1
+    assert enroll_response.status_code == 201
+    assert Enrollment.objects.filter(
+        user=student_user,
+        course_id=course_id
+    ).exists()
 
 
 @pytest.mark.django_db
-def test_duplicate_enrollment_not_allowed():
-    student = User.objects.create_user(
-        username="stud",
-        password="123",
-        user_role="student"
-    )
-    instructor = User.objects.create_user(
-        username="teach",
-        password="123",
-        user_role="instructor"
-    )
-
-    client = APIClient()
-
+def test_duplicate_enrollment_not_allowed(student_user, instructor_user):
     # Instructor creates course
-    login_teacher = client.post("/api/auth/login/", {
-        "username": "teach",
-        "password": "123"
-    })
-    token_teacher = login_teacher.data["access"]
-    client.credentials(HTTP_AUTHORIZATION=f"Bearer {token_teacher}")
+    instructor_client = APIClient()
+    instructor_client.force_authenticate(user=instructor_user)
 
-    course = client.post("/api/courses/", {
-        "course_name": "React",
-        "description": "Frontend"
-    }).data
+    course_response = instructor_client.post(
+        "/api/courses/",
+        {
+            "course_name": "React",
+            "description": "Frontend"
+        },
+        format="json"
+    )
 
-    # Student logs in
-    login_student = client.post("/api/auth/login/", {
-        "username": "stud",
-        "password": "123"
-    })
-    token_student = login_student.data["access"]
-    client.credentials(HTTP_AUTHORIZATION=f"Bearer {token_student}")
+    assert course_response.status_code == 201
+    course_id = course_response.data["id"]
 
-    # First enrollment
-    client.post("/api/enrollments/", {"course": course["id"]})
+    # Student enrolls first time
+    student_client = APIClient()
+    student_client.force_authenticate(user=student_user)
 
-    # Second enrollment attempt
-    res = client.post("/api/enrollments/", {"course": course["id"]})
-    print("ENROLLMENT ERROR:", res.data)
-    assert res.status_code == 400
+    first_enroll = student_client.post(
+        "/api/enrollments/",
+        {"course_id": course_id},
+        format="json"
+    )
+
+    assert first_enroll.status_code == 201
+
+    # Student enrolls second time (should fail)
+    second_enroll = student_client.post(
+        "/api/enrollments/",
+        {"course_id": course_id},
+        format="json"
+    )
+
+    assert second_enroll.status_code == 403
+
+    # DB should still have only ONE enrollment
+    assert Enrollment.objects.filter(
+        user=student_user,
+        course_id=course_id
+    ).count() == 1

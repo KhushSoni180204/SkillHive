@@ -4,22 +4,9 @@ from rest_framework.test import APIClient
 User = get_user_model()
 
 @pytest.mark.django_db
-def test_student_cannot_create_course():
-    user = User.objects.create_user(
-        username="student1",
-        password="123",
-        user_role="student"
-    )
-
+def test_student_cannot_create_course(student_user):
     client = APIClient()
-
-    login = client.post("/api/auth/login/", {
-        "username": "student1",
-        "password": "123",
-    })
-
-    token = login.data["access"]
-    client.credentials(HTTP_AUTHORIZATION=f"Bearer {token}")
+    client.force_authenticate(user=student_user)
 
     res = client.post("/api/courses/", {
         "course_name": "Hack Course",

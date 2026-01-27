@@ -8,6 +8,7 @@ def test_user_register():
 
     data = {
         "username": "testuser",
+        "email":"test123@gmail.com",
         "password": "testpassword",
         "user_phone": "9876543210",
         "user_role": "student"

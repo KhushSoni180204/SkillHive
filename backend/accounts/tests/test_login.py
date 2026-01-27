@@ -9,6 +9,7 @@ def test_login_returns_jwt():
     # Create user
     user = User.objects.create_user(
         username="john",
+        email="john@gmail.com",
         password="12345",
         user_role="student"
     )
@@ -16,7 +17,7 @@ def test_login_returns_jwt():
     client = APIClient()
 
     response = client.post("/api/auth/login/", {
-        "username": "john",
+        "email": "john@gmail.com",
         "password": "12345",
     }, format="json")
 

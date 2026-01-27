@@ -14,7 +14,8 @@ def api_client():
 def student_user(db):
     """Create a mock student."""
     return User.objects.create_user(
-        username="student_test",
+        email="test@gmail.com",
+        username="test",
         password="123",
         user_role="student"
     )
@@ -23,7 +24,8 @@ def student_user(db):
 def instructor_user(db):
     """Create a mock instructor."""
     return User.objects.create_user(
-        username="instructor_test",
+        email="instructor@gmail.com",
+        username="instructor",
         password="123",
         user_role="instructor"
     )
@@ -33,7 +35,7 @@ def instructor_user(db):
 def student_client(api_client, student_user):
     """Return API client authenticated as student."""
     login = api_client.post("/api/auth/login/", {
-        "username": student_user.username,
+        "email": student_user.email,
         "password": "123"
     })
     
@@ -46,7 +48,7 @@ def student_client(api_client, student_user):
 def instructor_client(api_client, instructor_user):
     """Return API client authenticated as instructor."""
     login = api_client.post("/api/auth/login/", {
-        "username": instructor_user.username,
+        "email": instructor_user.email,
         "password": "123"
     })
     
@@ -83,7 +85,16 @@ def sample_module(sample_course):
 def sample_lesson(sample_module):
     return Lesson.objects.create(
         module=sample_module,
-        lesson_name="Lesson 1",
-        content="Some content",
+        lesson_name="Models",
+        content="Django models define DB structure",
         duration=10
+    )
+
+from enrollments.models import Enrollment
+
+@pytest.fixture
+def enrollment(db, student_user, sample_course):
+    return Enrollment.objects.create(
+        user=student_user,
+        course=sample_course
     )

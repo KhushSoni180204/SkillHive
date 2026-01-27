@@ -49,7 +49,6 @@ class AskAIAPIView(APIView):
 from .services.prompt_builder import quiz_prompt
 from .models import AIQuiz
 
-
 class GenerateQuizAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -62,6 +61,22 @@ class GenerateQuizAPIView(APIView):
             .select_related("module", "module__course")
             .get(id=lesson_id)
         )
+
+        if not Enrollment.objects.filter(
+            user=request.user,
+            course=lesson.module.course
+        ).exists():
+            return Response({"detail": "Not enrolled"}, status=403)
+        
+        existing_quiz = AIQuiz.objects.filter(
+            student = request.user,
+            lesson = lesson,
+            difficulty = difficulty
+        ).order_by("-created_at").first()
+
+        if existing_quiz:
+            return Response(existing_quiz.quiz_data)
+         
         prompt = quiz_prompt(lesson, difficulty)
         raw_response = GeminiService.generate(prompt)
 

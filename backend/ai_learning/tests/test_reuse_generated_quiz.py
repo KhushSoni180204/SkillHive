@@ -4,7 +4,6 @@ from rest_framework import status
 from ai_learning.models import AIQuiz
 
 @pytest.mark.django_db
-@patch("ai_learning.views.GeminiService.generate")
 def test_existing_quiz_is_reused(
     mock_generate,
     api_client,

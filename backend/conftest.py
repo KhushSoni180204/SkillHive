@@ -5,6 +5,26 @@ from rest_framework.test import APIClient
 
 User = get_user_model()
 
+@pytest.fixture(autouse=True)
+def mock_gemini_generate():
+    """
+    Mock Gemini AI for ALL tests to prevent real API calls.
+    """
+    with patch("ai_learning.views.GeminiService.generate") as mock_generate:
+        mock_generate.return_value = """
+        {
+          "questions": [
+            {
+              "question": "Mock question?",
+              "options": ["A", "B", "C", "D"],
+              "answer": "A",
+              "explanation": "Mock explanation"
+            }
+          ]
+        }
+        """
+        yield mock_generate
+        
 @pytest.fixture
 def api_client():
     """Return fresh DRF API client."""

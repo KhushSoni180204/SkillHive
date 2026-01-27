@@ -18,9 +18,9 @@ jobs:
         uses: docker/setup-buildx-action@v3
 
       - name: Build containers
-        run: |
-          docker compose --env-file backend/.env.ci build
+        working-directory: backend
+        run: docker compose --env-file .env.ci build
 
       - name: Run backend tests
-        run: |
-          docker compose --env-file backend/.env.ci run --rm web pytest -v
+        working-directory: backend
+        run: docker compose --env-file .env.ci run --rm web pytest -v

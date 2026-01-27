@@ -5,7 +5,6 @@ services:
     restart: always
     command: gunicorn skillhive.wsgi:application --config gunicorn_config.py
     env_file:
-      - .env
       - .env.ci
     volumes:
       - .:/app

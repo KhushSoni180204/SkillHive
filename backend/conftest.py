@@ -2,6 +2,8 @@
 import pytest
 from django.contrib.auth import get_user_model
 from rest_framework.test import APIClient
+from unittest.mock import patch
+
 
 User = get_user_model()
 
@@ -24,7 +26,7 @@ def mock_gemini_generate():
         }
         """
         yield mock_generate
-        
+
 @pytest.fixture
 def api_client():
     """Return fresh DRF API client."""
